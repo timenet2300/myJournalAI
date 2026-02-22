@@ -1,6 +1,3 @@
-# Complete GitHub Actions Configuration: `latex.yml`
-
-### 1. The Workflow Code
 name: latex-compile
 
 on:
