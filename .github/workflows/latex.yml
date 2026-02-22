@@ -1,4 +1,3 @@
-
 name: latex-compile
 
 on:
@@ -15,22 +14,26 @@ jobs:
   build_latex:
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository
       - name: Set up Git repository
-        uses: actions/checkout@v4 # Updated from v3
+        uses: actions/checkout@v4
 
+      # Run paperaj to process document environment
       - name: Run paperaj
         uses: dermatologist/paperaj@master
         with:
           env-file: paperaj.env
 
+      # Compile the LaTeX document
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v3 # Updated from v2
+        uses: xu-cheng/latex-action@v3
         with:
           working_directory: clean
           root_file: main.tex
 
-      - name: Upload LaTeX pdf
-        uses: actions/upload-artifact@v4 # Updated from v2
+      # Upload the compiled PDF as an artifact
+      - name: Upload LaTeX PDF
+        uses: actions/upload-artifact@v4
         with:
           name: article
           path: clean/main.pdf
