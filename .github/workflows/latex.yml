@@ -1,3 +1,6 @@
+# Complete GitHub Actions Configuration: `latex.yml`
+
+### 1. The Workflow Code
 name: latex-compile
 
 on:
@@ -14,27 +17,29 @@ jobs:
   build_latex:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository
+      # Step 1: Clone the repository to the runner
       - name: Set up Git repository
         uses: actions/checkout@v4
 
-      # Run paperaj to process document environment
+      # Step 2: Process environment using Paperaj
+      # Note: This uses the remote Docker container from the dermatologist repo
       - name: Run paperaj
         uses: dermatologist/paperaj@master
         with:
           env-file: paperaj.env
 
-      # Compile the LaTeX document
+      # Step 3: Compile the LaTeX document
+      # FIX: Changed working_directory to '.' to match your file structure
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
-          working_directory: clean
           root_file: main.tex
+          working_directory: .
+          args: "-pdf -latexmk -interaction=nonstopmode"
 
-      # Upload the compiled PDF as an artifact
-      - name: Upload LaTeX PDF
+      # Step 4: Upload the result
+      - name: Upload Compiled PDF
         uses: actions/upload-artifact@v4
         with:
-          name: article
-          path: clean/main.pdf
-          retention-days: 5
+          name: paper-output
+          path: main.pdf
