@@ -2,41 +2,30 @@ name: latex-compile
 
 on:
   push:
-    branches:
-      - main
-      - master
+    branches: [main, master]
   pull_request:
-    branches:
-      - main
-      - master
+    branches: [main, master]
 
 jobs:
   build_latex:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Clone the repository to the runner
-      - name: Set up Git repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # Step 2: Process environment using Paperaj
-      # Note: This uses the remote Docker container from the dermatologist repo
       - name: Run paperaj
         uses: dermatologist/paperaj@master
         with:
           env-file: paperaj.env
 
-      # Step 3: Compile the LaTeX document
-      # FIX: Changed working_directory to '.' to match your file structure
-      - name: Compile LaTeX document
+      - name: Compile LaTeX
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
           working_directory: .
-          args: "-pdf -latexmk -interaction=nonstopmode"
 
-      # Step 4: Upload the result
-      - name: Upload Compiled PDF
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: paper-output
+          name: pdf-artifact
           path: main.pdf
