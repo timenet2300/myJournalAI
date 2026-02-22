@@ -30,7 +30,7 @@ jobs:
           root_file: main.tex
 
       - name: Upload LaTeX pdf
-        uses: actions/upload-artifact@v3 # Updated from v2
+        uses: actions/upload-artifact@v4 # Updated from v2
         with:
           name: article
           path: clean/main.pdf
